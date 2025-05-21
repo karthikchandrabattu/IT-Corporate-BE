@@ -1,11 +1,11 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
   "metadata": {
-    "type": "SemanticModel",
-    "displayName": "IT Timesheet Report"
+    "type": "CopyJob",
+    "displayName": "copyjob1"
   },
   "config": {
     "version": "2.0",
-    "logicalId": "67e61c85-6042-9585-40d7-23fd81d579c8"
+    "logicalId": "a6880fc2-c27c-88f8-479f-5eb72bd56b47"
   }
 }
