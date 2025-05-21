@@ -1,11 +1,11 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
   "metadata": {
-    "type": "Report",
-    "displayName": "IT Timesheet Report"
+    "type": "DataPipeline",
+    "displayName": "pipeline1"
   },
   "config": {
     "version": "2.0",
-    "logicalId": "93a6d14c-bf57-bd81-4ced-0eeb9627a942"
+    "logicalId": "0d1d3ce8-e4fe-811b-4178-c85cc369c6a7"
   }
 }
