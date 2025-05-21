@@ -1,0 +1,105 @@
+table Project_Summary_Report
+	lineageTag: 38b8cf08-fff6-4a7c-9c2d-a6756e710e8e
+
+	column Project_Name
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: bedeebcc-366f-41c3-9384-78fbc6c3e06e
+		summarizeBy: none
+		sourceColumn: Project_Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column Project_Key
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: a2d4a049-dd59-4d76-8226-f7c137599959
+		summarizeBy: none
+		sourceColumn: Project_Key
+
+		annotation SummarizationSetBy = Automatic
+
+	column Issue_Keys
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: 5032112f-3546-4c44-9933-af731f8f3e0c
+		summarizeBy: none
+		sourceColumn: Issue_Keys
+
+		annotation SummarizationSetBy = Automatic
+
+	column Statuses
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: 64695819-1c4a-466c-9e38-52234dbdd358
+		summarizeBy: none
+		sourceColumn: Statuses
+
+		annotation SummarizationSetBy = Automatic
+
+	column OpenOrClosed
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: 8db62eed-27e2-4f03-a3ba-afb31b9c3e97
+		summarizeBy: none
+		sourceColumn: OpenOrClosed
+
+		annotation SummarizationSetBy = Automatic
+
+	column Start_Date
+		dataType: dateTime
+		formatString: Long Date
+		sourceProviderType: date
+		lineageTag: 1b87399b-8968-4697-940d-87f974294f06
+		summarizeBy: none
+		sourceColumn: Start_Date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column End_Date
+		dataType: dateTime
+		formatString: Long Date
+		sourceProviderType: date
+		lineageTag: 1eea4a8c-fdcc-4c47-be4a-2bf68332dd9b
+		summarizeBy: none
+		sourceColumn: End_Date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Total_Hours_Spent
+		dataType: double
+		sourceProviderType: float
+		lineageTag: 4fa101fd-3096-4510-a31a-c4846f925258
+		summarizeBy: sum
+		sourceColumn: Total_Hours_Spent
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Total_Billable_Hours
+		dataType: double
+		sourceProviderType: float
+		lineageTag: 59a24598-d14e-4291-ab50-7dd590ce68df
+		summarizeBy: sum
+		sourceColumn: Total_Billable_Hours
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition Project_Summary_Report = m
+		mode: directQuery
+		source =
+				let
+				    Source = Sql.Database("dfm4t2vou6wu3g3hioav63of4e-blcyp26hrp4eboy2rijvhggg6q.datawarehouse.fabric.microsoft.com", "LH_Reporting"),
+				    dbo_Project_Summary_Report = Source{[Schema="dbo",Item="Project_Summary_Report"]}[Data]
+				in
+				    dbo_Project_Summary_Report
+
+	annotation PBI_ResultType = Table
+

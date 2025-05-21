@@ -1,0 +1,303 @@
+table Jira_Worklog_Report
+	lineageTag: df407a30-b3a0-4842-a6b1-ff6772362e9b
+
+	column Employee_Guid
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: 206ef80b-b589-4cbc-ad16-4d4c6cd5264c
+		summarizeBy: none
+		sourceColumn: Employee_Guid
+
+		annotation SummarizationSetBy = Automatic
+
+	column Employee_Name
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: a49675fe-64d0-4740-a81b-81da58e09e3d
+		summarizeBy: none
+		sourceColumn: Employee_Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column Employee_Email
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: cb6a2592-7f8c-4cd8-8a13-6154a0bd7258
+		summarizeBy: none
+		sourceColumn: Employee_Email
+
+		annotation SummarizationSetBy = Automatic
+
+	column Employee_TimeZone
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: b3d87e46-118b-4917-bd15-918050311de5
+		summarizeBy: none
+		sourceColumn: Employee_TimeZone
+
+		annotation SummarizationSetBy = Automatic
+
+	column Employee_Locale
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: 540b70ae-f844-4da4-985a-54b69e677ee3
+		summarizeBy: none
+		sourceColumn: Employee_Locale
+
+		annotation SummarizationSetBy = Automatic
+
+	column Team
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: 0c5fa6f0-d214-4aba-8da1-fc67a45a6a64
+		summarizeBy: none
+		sourceColumn: Team
+
+		annotation SummarizationSetBy = Automatic
+
+	column Project_Name
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: f2db150e-5608-4ef1-aa3d-a05b179ed9e4
+		summarizeBy: none
+		sourceColumn: Project_Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column Project_Key
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: 57a531e2-cbda-4a45-ac49-77ba0d6661e2
+		summarizeBy: none
+		sourceColumn: Project_Key
+
+		annotation SummarizationSetBy = Automatic
+
+	column Issue_Summary
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: 47016a86-8539-47f4-9814-7f44bf9afc40
+		summarizeBy: none
+		sourceColumn: Issue_Summary
+
+		annotation SummarizationSetBy = Automatic
+
+	column Issue_Key
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: adeb5e05-6e4c-4c27-8ed8-0253d3e799b0
+		summarizeBy: none
+		sourceColumn: Issue_Key
+
+		annotation SummarizationSetBy = Automatic
+
+	column Issue_Type
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: 1b5fb503-05ff-4b67-a868-57d09220b941
+		summarizeBy: none
+		sourceColumn: Issue_Type
+
+		annotation SummarizationSetBy = Automatic
+
+	column Priority
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: 56d21aec-89d3-4b78-a578-e52b503b76d2
+		summarizeBy: none
+		sourceColumn: Priority
+
+		annotation SummarizationSetBy = Automatic
+
+	column Status
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: 97cbe24e-0962-411b-ae6a-80dd2936f473
+		summarizeBy: none
+		sourceColumn: Status
+
+		annotation SummarizationSetBy = Automatic
+
+	column description
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: c1e76b17-1c1a-4b45-ad1d-ff6a2041d360
+		summarizeBy: none
+		sourceColumn: description
+
+		annotation SummarizationSetBy = Automatic
+
+	column Hours_Spent
+		dataType: double
+		sourceProviderType: float
+		lineageTag: 9898d0b4-fc53-4f00-ba52-b45166724873
+		summarizeBy: sum
+		sourceColumn: Hours_Spent
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Billable_Hours
+		dataType: double
+		sourceProviderType: float
+		lineageTag: ebaa62cd-1e37-4c38-9cbc-7770191e22d2
+		summarizeBy: sum
+		sourceColumn: Billable_Hours
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column startDate
+		dataType: dateTime
+		formatString: Long Date
+		sourceProviderType: date
+		lineageTag: 10563dfd-e74b-4703-95fc-3447e19e5fdf
+		summarizeBy: none
+		sourceColumn: startDate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column startTime
+		dataType: dateTime
+		formatString: General Date
+		sourceProviderType: datetime2
+		lineageTag: b8cd93cc-5124-4fd2-8ced-bb36e94f21ac
+		summarizeBy: none
+		sourceColumn: startTime
+
+		annotation SummarizationSetBy = Automatic
+
+	column startDateTimeUtc
+		dataType: dateTime
+		formatString: General Date
+		sourceProviderType: datetime2
+		lineageTag: acf5f41f-1d25-4997-b93a-f3e89329b8ff
+		summarizeBy: none
+		sourceColumn: startDateTimeUtc
+
+		annotation SummarizationSetBy = Automatic
+
+	column CreatedAt
+		dataType: dateTime
+		formatString: General Date
+		sourceProviderType: datetime2
+		lineageTag: 141ffaf2-7efa-465d-a52a-984ae8383dee
+		summarizeBy: none
+		sourceColumn: CreatedAt
+
+		annotation SummarizationSetBy = Automatic
+
+	column UpdatedAt
+		dataType: dateTime
+		formatString: General Date
+		sourceProviderType: datetime2
+		lineageTag: 9b2ee991-8737-44ca-b353-2ab8e17d596c
+		summarizeBy: none
+		sourceColumn: UpdatedAt
+
+		annotation SummarizationSetBy = Automatic
+
+	column Scheduled_Hours
+		dataType: double
+		sourceProviderType: float
+		lineageTag: c86ad84d-82ef-4638-9644-8fd016740460
+		summarizeBy: sum
+		sourceColumn: Scheduled_Hours
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column emp_norm
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: b8c8c903-a4f3-4f59-a4f2-ae7099e39f7a
+		summarizeBy: none
+		sourceColumn: emp_norm
+
+		annotation SummarizationSetBy = Automatic
+
+	column ps_norm
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: ca8a2a97-b7bf-4000-afc9-10f04e9d5420
+		summarizeBy: none
+		sourceColumn: ps_norm
+
+		annotation SummarizationSetBy = Automatic
+
+	column PeopleSoft_Name
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: 2c912651-342c-4e96-a221-7b45a7eb6c7b
+		summarizeBy: none
+		sourceColumn: PeopleSoft_Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column PSName
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: 6fbbd9c2-8762-4ed5-9993-bd6fbca0a6d2
+		summarizeBy: none
+		sourceColumn: PSName
+
+		annotation SummarizationSetBy = Automatic
+
+	column Year = YEAR(Jira_Worklog_Report[startDate])
+		formatString: 0
+		lineageTag: 7cc21c7d-4036-4f76-980e-0e8894cc0434
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column Month = MONTH(Jira_Worklog_Report[startDate])
+		formatString: 0
+		lineageTag: 4973ff85-861f-4a71-af1b-a2e0dc09aac5
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column MonthName = SWITCH(Jira_Worklog_Report[Month], 1, "01, Jan", 2,"02, Feb",3,"03, Mar",4,"04, Apr",5,"05, May",6,"06, Jun",7,"07, Jul",8,"08, Aug",9,"09, Sep", 10, "10, Oct",11,"11, Nov",12,"12, Dec")
+		lineageTag: c6d609cf-88d2-4c6b-8d05-f025cc0df4d0
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column NonBilableHrs = Jira_Worklog_Report[Hours_Spent]-Jira_Worklog_Report[Billable_Hours]
+		dataType: int64
+		formatString: #,0
+		lineageTag: 241c1a7e-8343-4700-b1ff-e2e0742c9bb4
+		summarizeBy: sum
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+	column PriorityName = SWITCH(Jira_Worklog_Report[Priority], "P1","Highest","P2","Medium","P3","Low","P4","Lowest", Jira_Worklog_Report[Priority])
+		lineageTag: 0f661422-0bc3-4ff8-a03a-b77f29bc3d19
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProjectNameTrimed = TRIM(Jira_Worklog_Report[Project_Name])
+		lineageTag: 97fe4550-dee5-493f-85eb-ffe0fe2ed673
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Jira_Worklog_Report = m
+		mode: directQuery
+		source =
+				let
+				    Source = Sql.Database("dfm4t2vou6wu3g3hioav63of4e-blcyp26hrp4eboy2rijvhggg6q.datawarehouse.fabric.microsoft.com", "LH_Reporting"),
+				    dbo_Jira_Worklog_Report = Source{[Schema="dbo",Item="Jira_Worklog_Report"]}[Data]
+				in
+				    dbo_Jira_Worklog_Report
+
+	annotation PBI_ResultType = Table
+

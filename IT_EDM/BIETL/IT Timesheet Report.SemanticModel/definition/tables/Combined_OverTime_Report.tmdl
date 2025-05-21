@@ -1,0 +1,132 @@
+table Combined_OverTime_Report
+	lineageTag: 4cc90e7c-1415-411f-9e3f-4e295a0c608c
+
+	column Employee_Name
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: fe7c6d2a-17ed-403f-bf07-615f40102ed7
+		summarizeBy: none
+		sourceColumn: Employee_Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column Team
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: 3518e347-2510-4f84-b4db-fecb2c0f59aa
+		summarizeBy: none
+		sourceColumn: Team
+
+		annotation SummarizationSetBy = Automatic
+
+	column Projects
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: 7373f226-980f-4c7b-a88a-d70c4bb8c2bf
+		summarizeBy: none
+		sourceColumn: Projects
+
+		annotation SummarizationSetBy = Automatic
+
+	column issues
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: 2de4b6ce-fc18-476a-9706-9b6b165d3255
+		summarizeBy: none
+		sourceColumn: issues
+
+		annotation SummarizationSetBy = Automatic
+
+	column Comments
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: 40888963-a88a-442e-8c67-99b74d7b6798
+		summarizeBy: none
+		sourceColumn: Comments
+
+		annotation SummarizationSetBy = Automatic
+
+	column descriptions
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: ee8f3052-2561-4392-870b-b4b5dd92cb0c
+		summarizeBy: none
+		sourceColumn: descriptions
+
+		annotation SummarizationSetBy = Automatic
+
+	column Week_Number
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 9a3b3772-22b9-4abe-9b5e-525e24c0f55b
+		summarizeBy: sum
+		sourceColumn: Week_Number
+
+		annotation SummarizationSetBy = Automatic
+
+	column Week_Start
+		dataType: dateTime
+		formatString: Long Date
+		sourceProviderType: date
+		lineageTag: ad852cd9-34d9-4943-a39d-bc854bceee8c
+		summarizeBy: none
+		sourceColumn: Week_Start
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Week_Label
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: f616c18f-423b-44ab-81c8-76186282fa3f
+		summarizeBy: none
+		sourceColumn: Week_Label
+
+		annotation SummarizationSetBy = Automatic
+
+	column Jira_OverTime_Spent
+		dataType: double
+		sourceProviderType: float
+		lineageTag: aa4ec985-d059-4380-a7bf-e4caf4a01709
+		summarizeBy: sum
+		sourceColumn: Jira_OverTime_Spent
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Jira_OverTime_Billable
+		dataType: double
+		sourceProviderType: float
+		lineageTag: d6e74687-f86b-414b-8eb6-49575979175f
+		summarizeBy: sum
+		sourceColumn: Jira_OverTime_Billable
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column PeopleSoft_OverTime
+		dataType: double
+		sourceProviderType: float
+		lineageTag: be36d12a-45dd-4f84-9832-d0fe9f7ecd91
+		summarizeBy: sum
+		sourceColumn: PeopleSoft_OverTime
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition Combined_OverTime_Report = m
+		mode: directQuery
+		source =
+				let
+				    Source = Sql.Database("dfm4t2vou6wu3g3hioav63of4e-blcyp26hrp4eboy2rijvhggg6q.datawarehouse.fabric.microsoft.com", "LH_Reporting"),
+				    dbo_Combined_OverTime_Report = Source{[Schema="dbo",Item="Combined_OverTime_Report"]}[Data]
+				in
+				    dbo_Combined_OverTime_Report
+
+	annotation PBI_ResultType = Table
+
