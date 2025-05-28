@@ -1,11 +1,12 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
   "metadata": {
-    "type": "DataPipeline",
-    "displayName": "00_PL_MetaData"
+    "type": "Environment",
+    "displayName": "ITCorporateBEEnv001",
+    "description": "Environment"
   },
   "config": {
     "version": "2.0",
-    "logicalId": "96eaba00-7746-adcc-41c1-a3d09a28660d"
+    "logicalId": "12ea310e-880a-9cce-4326-f1823ff72cb0"
   }
 }

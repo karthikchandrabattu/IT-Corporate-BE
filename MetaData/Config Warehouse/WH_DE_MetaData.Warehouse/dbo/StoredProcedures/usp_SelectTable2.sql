@@ -1,3 +1,0 @@
-CREATE   PROCEDURE dbo.usp_SelectTable2
-AS
-SELECT 2

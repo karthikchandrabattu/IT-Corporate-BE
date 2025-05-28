@@ -1,0 +1,299 @@
+{
+  "properties": {
+    "activities": [
+      {
+        "type": "Until",
+        "typeProperties": {
+          "expression": {
+            "value": "@equals(activity('CheckNotReadyTables').output.firstRow.NotReadyCount, 0)",
+            "type": "Expression"
+          },
+          "timeout": "0.02:00:00",
+          "activities": [
+            {
+              "type": "Lookup",
+              "typeProperties": {
+                "source": {
+                  "type": "SqlServerSource",
+                  "sqlReaderQuery": "SELECT DataSource FROM [logs].[ETL_Status_Table] WHERE Live_Status = 'Ready' AND CAST(ETLRefresh_Timestamp AS DATE) = CAST(GETDATE() AS DATE)",
+                  "partitionOption": "None",
+                  "queryTimeout": "02:00:00"
+                },
+                "datasetSettings": {
+                  "type": "SqlServerTable",
+                  "typeProperties": {
+                    "database": "EDM"
+                  },
+                  "schema": [],
+                  "externalReferences": {
+                    "connection": "d1565b37-5a8c-4ebb-9b25-ed365e944970"
+                  },
+                  "annotations": []
+                },
+                "firstRowOnly": false
+              },
+              "policy": {
+                "retry": 0,
+                "retryIntervalInSeconds": 30,
+                "secureInput": false,
+                "secureOutput": false
+              },
+              "name": "GetReadyTables",
+              "dependsOn": [
+                {
+                  "activity": "CheckNotReadyTables",
+                  "dependencyConditions": [
+                    "Succeeded"
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "SqlServerStoredProcedure",
+              "typeProperties": {
+                "storedProcedureName": "[dbo].[usp_UpdateMetadataActiveStatus]",
+                "storedProcedureParameters": {
+                  "JsonData": {
+                    "value": {
+                      "value": "@string(activity('GetReadyTables').output.value)",
+                      "type": "Expression"
+                    },
+                    "type": "String"
+                  }
+                }
+              },
+              "linkedService": {
+                "name": "DW_AuditLogs",
+                "properties": {
+                  "type": "DataWarehouse",
+                  "typeProperties": {
+                    "artifactId": "eed1070d-2c91-47ab-8cf8-4a475770804a",
+                    "endpoint": "dfm4t2vou6wu3g3hioav63of4e-blcyp26hrp4eboy2rijvhggg6q.datawarehouse.fabric.microsoft.com",
+                    "workspaceId": "eb87c50a-8bc7-40f8-bb1a-8a135398c6f4"
+                  },
+                  "annotations": []
+                }
+              },
+              "policy": {
+                "retry": 0,
+                "retryIntervalInSeconds": 30,
+                "secureInput": false,
+                "secureOutput": false
+              },
+              "name": "UpdateMetadataActiveStatus",
+              "dependsOn": [
+                {
+                  "activity": "GetReadyTables",
+                  "dependencyConditions": [
+                    "Succeeded"
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "Script",
+              "typeProperties": {
+                "scripts": [
+                  {
+                    "text": {
+                      "value": "DECLARE @LatestBatchID INT = @{activity('GetNextBatchID').output.resultSets[0].rows[0].NextBatchID};\nUPDATE M\nSET ETLRefresh_Timestamp = SYSDATETIMEOFFSET() AT TIME ZONE 'UTC' AT TIME ZONE 'Eastern Standard Time'\nFROM Metadata_TableList M\nJOIN (\n    SELECT BatchName\n    FROM Audit_ObjectExecutionLog\n    WHERE ETLBatchID = @LatestBatchID AND Status = 1\n) A\nON M.SourceTableName = A.BatchName;",
+                      "type": "Expression"
+                    },
+                    "type": "Query"
+                  }
+                ]
+              },
+              "linkedService": {
+                "name": "DW_AuditLogs",
+                "properties": {
+                  "type": "DataWarehouse",
+                  "typeProperties": {
+                    "artifactId": "eed1070d-2c91-47ab-8cf8-4a475770804a",
+                    "endpoint": "dfm4t2vou6wu3g3hioav63of4e-blcyp26hrp4eboy2rijvhggg6q.datawarehouse.fabric.microsoft.com",
+                    "workspaceId": "eb87c50a-8bc7-40f8-bb1a-8a135398c6f4"
+                  },
+                  "annotations": []
+                }
+              },
+              "policy": {
+                "retry": 0,
+                "retryIntervalInSeconds": 30,
+                "secureInput": false,
+                "secureOutput": false
+              },
+              "name": "Update ETLRefresh_Timestamp",
+              "dependsOn": [
+                {
+                  "activity": "Invoke BISQLEDM_ETL_LOAD",
+                  "dependencyConditions": [
+                    "Succeeded"
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "Wait",
+              "typeProperties": {
+                "waitTimeInSeconds": 300
+              },
+              "name": "Wait _Min",
+              "state": "Inactive",
+              "onInactiveMarkAs": "Succeeded",
+              "dependsOn": [
+                {
+                  "activity": "Update ETLRefresh_Timestamp",
+                  "dependencyConditions": [
+                    "Succeeded"
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "Lookup",
+              "typeProperties": {
+                "source": {
+                  "type": "SqlServerSource",
+                  "sqlReaderQuery": "SELECT COUNT(*) AS NotReadyCount\nFROM [logs].[ETL_Status_Table]\nWHERE Live_Status <> 'Ready'\nAND DataSource NOT IN ('UserSecurity','PMOM_HEAD_COUNT','DMD_CUSTOMER_VIEW_NOW','DMF_PMOM_CHANGE_QUEUE','DMF_PMOM_OMA','DMF_PMOM_OREL','DMF_PMOM_SWOD')",
+                  "partitionOption": "None",
+                  "queryTimeout": "02:00:00"
+                },
+                "datasetSettings": {
+                  "type": "SqlServerTable",
+                  "typeProperties": {
+                    "database": "EDM"
+                  },
+                  "schema": [],
+                  "externalReferences": {
+                    "connection": "d1565b37-5a8c-4ebb-9b25-ed365e944970"
+                  },
+                  "annotations": []
+                },
+                "firstRowOnly": true
+              },
+              "policy": {
+                "retry": 0,
+                "retryIntervalInSeconds": 30,
+                "secureInput": false,
+                "secureOutput": false
+              },
+              "name": "CheckNotReadyTables",
+              "dependsOn": []
+            },
+            {
+              "type": "InvokePipeline",
+              "typeProperties": {
+                "parameters": {
+                  "IsSourceFetchRequired": true,
+                  "IsSilverLayerRequired": "false",
+                  "IsGoldLayerRequired": false,
+                  "TableListID": "all",
+                  "IsForceStartRequired": true,
+                  "SourceSystem": "SQLBIETL",
+                  "IsFullLoadRequired": true
+                },
+                "waitOnCompletion": true,
+                "workspaceId": "00000000-0000-0000-0000-000000000000",
+                "pipelineId": "667eeb2e-2a7a-953b-4c62-62621afb317f",
+                "operationType": "InvokeFabricPipeline"
+              },
+              "externalReferences": {
+                "connection": "4b12a476-1377-44b3-ba53-76fda8046414"
+              },
+              "policy": {
+                "timeout": "0.12:00:00",
+                "retry": 0,
+                "retryIntervalInSeconds": 30,
+                "secureInput": false,
+                "secureOutput": false
+              },
+              "name": "Invoke BISQLEDM_ETL_LOAD",
+              "dependsOn": [
+                {
+                  "activity": "GetNextBatchID",
+                  "dependencyConditions": [
+                    "Succeeded"
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "Script",
+              "typeProperties": {
+                "scripts": [
+                  {
+                    "text": {
+                      "value": "SELECT ISNULL(MAX(ETLBatchID), 0) + 1 AS NextBatchID FROM ETLBatch;",
+                      "type": "Expression"
+                    },
+                    "type": "Query"
+                  }
+                ],
+                "scriptBlockExecutionTimeout": "02:00:00"
+              },
+              "linkedService": {
+                "name": "DW_AuditLogs",
+                "properties": {
+                  "type": "DataWarehouse",
+                  "typeProperties": {
+                    "artifactId": "eed1070d-2c91-47ab-8cf8-4a475770804a",
+                    "endpoint": "dfm4t2vou6wu3g3hioav63of4e-blcyp26hrp4eboy2rijvhggg6q.datawarehouse.fabric.microsoft.com",
+                    "workspaceId": "eb87c50a-8bc7-40f8-bb1a-8a135398c6f4"
+                  },
+                  "annotations": []
+                }
+              },
+              "policy": {
+                "timeout": "0.12:00:00",
+                "retry": 0,
+                "retryIntervalInSeconds": 30,
+                "secureInput": false,
+                "secureOutput": false
+              },
+              "name": "GetNextBatchID",
+              "dependsOn": [
+                {
+                  "activity": "UpdateMetadataActiveStatus",
+                  "dependencyConditions": [
+                    "Succeeded"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "name": "RunAndCheckLoop",
+        "dependsOn": []
+      },
+      {
+        "type": "Office365Outlook",
+        "typeProperties": {
+          "inputs": {
+            "body": {
+              "To": "Karthik.Battu@FutureElectronics.com",
+              "Subject": "BISQL_Adhoc_ETL Pipeline Execution Completed",
+              "Body": "<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>\n<h2>✅ ETL Pipeline Execution Completed</h2>\n<p><strong>Pipeline:</strong> <code></code><code>@{pipeline().Pipeline}</code><code></code></p>\n<p><strong>Run ID:</strong> <code></code><code>@{pipeline().RunId}</code><code></code></p>\n<p><strong>Status:</strong> <span style=\"color: green\"><strong>Succeeded</strong></span></p>\n<p><strong>End Time:</strong> @{formatDateTime(convertTimeZone(utcNow(), 'UTC', 'Eastern Standard Time'), 'yyyy-MM-dd HH:mm:ss')}</p>\n<p>You can view detailed logs in the <strong>Audit_Log table</strong> at:</p>\n<ul>\n  <li><strong>POC_Warehouse.dbo.Audit_ObjectExecutionLog</strong></li>\n</ul>\n<p>This is an automated notification from Microsoft Fabric. Please do not reply.</p>",
+              "Sensitivity": "",
+              "Importance": "Normal"
+            },
+            "method": "post",
+            "path": "/v2/Mail"
+          }
+        },
+        "name": "Execution Completed Email",
+        "dependsOn": [
+          {
+            "activity": "RunAndCheckLoop",
+            "dependencyConditions": [
+              "Completed"
+            ]
+          }
+        ]
+      }
+    ],
+    "variables": {
+      "BatchStartTime": {
+        "type": "String"
+      }
+    }
+  }
+}
